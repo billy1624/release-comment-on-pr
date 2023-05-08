@@ -30507,6 +30507,10 @@ const issueParser = __nccwpck_require__(6877);
 const parse = issueParser("github");
 const { template } = __nccwpck_require__(250);
 
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
 async function run() {
   try {
     const token = core.getInput("token");
@@ -30530,6 +30534,8 @@ async function run() {
     // Post a comment on each pull request
     for (const prNumberStr of prNumbers) {
       const prNumber = parseInt(prNumberStr);
+
+      await delay(1000);
 
       try {
         const { data: pullRequest } = await octokit.rest.issues.get({
