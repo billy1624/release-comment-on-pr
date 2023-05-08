@@ -30532,10 +30532,10 @@ async function run() {
       const prNumber = parseInt(prNumberStr);
 
       try {
-        const { data: pullRequest } = await octokit.rest.pulls.get({
+        const { data: pullRequest } = await octokit.rest.issues.get({
           owner,
           repo,
-          pull_number: prNumber,
+          issue_number: prNumber,
         });
         const message = template(messageTemplate)({
           releaseName: release.name,
