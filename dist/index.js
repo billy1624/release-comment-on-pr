@@ -30522,7 +30522,11 @@ async function run() {
       core.getInput("message", { required: false }) ||
       ":tada: This PR is included in [${releaseTag}](${releaseUrl}) :tada:";
 
-    const { data: release } = await octokit.rest.repos.getRelease({ owner, repo, release_id: "latest" });
+    const release_tag = core.getInput("release-tag", { required: false });
+
+    const { data: release } = release_tag ?
+      await octokit.rest.repos.getReleaseByTag({ owner, repo, tag: release_tag }) :
+      await octokit.rest.repos.getRelease({ owner, repo, release_id: "latest" });
 
     // Parse the release notes to extract the pull request numbers
     const prNumbers = [...new Set(parse(release.body).refs.map((ref) => ref.issue))];
